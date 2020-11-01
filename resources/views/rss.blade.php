@@ -32,8 +32,7 @@
                     @endif
                     @if(isset($item->imageHeight))
                     height="{{ $item->imageHeight }}"
-                    @endif
-                />
+                    @endif />
                 @endif
             </item>
         @endforeach
