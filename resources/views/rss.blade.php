@@ -2,7 +2,11 @@
 /* Using an echo tag here so the `<? ... ?>` won't get parsed as short tags */
 '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL
 ?>
-<rss version="2.0">
+<rss version="2.0"
+     xmlns:media="http://search.yahoo.com/mrss/"
+     xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+
     <channel>
         <title><![CDATA[{{ $meta['title'] }}]]></title>
         <link><![CDATA[{{ url($meta['link']) }}]]></link>
