@@ -15,12 +15,26 @@
                 <title><![CDATA[{{ $item->title }}]]></title>
                 <link>{{ url($item->link) }}</link>
                 <description><![CDATA[{!! $item->summary !!}]]></description>
+                @if(isset($item->author))
                 <author><![CDATA[{{ $item->author }}]]></author>
+                @endif
                 <guid>{{ url($item->id) }}</guid>
                 <pubDate>{{ $item->updated->toRssString() }}</pubDate>
                 @foreach($item->category as $category)
-                    <category>{{ $category }}</category>
+                <category>{{ $category }}</category>
                 @endforeach
+                @if(isset($item->image))
+                <media:content
+                    url="{{ $item->image }}"
+                    type="{{ $item->imageType }}"
+                    @if(isset($item->imageWidth))
+                    width="{{ $item->imageWidth }}"
+                    @endif
+                    @if(isset($item->imageHeight))
+                    height="{{ $item->imageHeight }}"
+                    @endif
+                />
+                @endif
             </item>
         @endforeach
     </channel>

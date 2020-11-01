@@ -24,9 +24,17 @@ class FeedItem
 
     protected string $enclosureType;
 
-    protected string $author;
+    protected ?string $author = null;
 
     protected array $category = [];
+
+    protected string $image;
+
+    protected string $imageType;
+
+    protected ?int $imageWidth = null;
+
+    protected ?int $imageHeight = null;
 
     public function __construct(array $data = [])
     {
@@ -102,6 +110,34 @@ class FeedItem
         return $this;
     }
 
+    public function image(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function imageType(string $imageType): self
+    {
+        $this->imageType = $imageType;
+
+        return $this;
+    }
+
+    public function imageWidth(int $imageWidth): self
+    {
+        $this->imageWidth = $imageWidth;
+
+        return $this;
+    }
+
+    public function imageHeight(int $imageHeight): self
+    {
+        $this->imageHeight = $imageHeight;
+
+        return $this;
+    }
+
     public function author(string $author): self
     {
         $this->author = $author;
@@ -118,7 +154,7 @@ class FeedItem
 
     public function validate(): void
     {
-        $requiredFields = ['id', 'title', 'updated', 'summary', 'link', 'author'];
+        $requiredFields = ['id', 'title', 'updated', 'summary', 'link'];
 
         foreach ($requiredFields as $requiredField) {
             if (is_null($this->$requiredField)) {
