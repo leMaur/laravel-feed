@@ -8,25 +8,26 @@
      xmlns:atom="http://www.w3.org/2005/Atom">
 
     <channel>
-        <title><![CDATA[{{ $meta['title'] }}]]></title>
-        <link><![CDATA[{{ url($meta['link']) }}]]></link>
-        <description><![CDATA[{{ $meta['description'] }}]]></description>
-        <language>{{ $meta['language'] }}</language>
-        <pubDate>{{ $meta['updated'] }}</pubDate>
-
+        @foreach($meta as $key => $metaItem)
+            @if($key === 'link')
+                <atom:link href="{{ url($metaItem) }}" rel="self" type="application/rss+xml" />
+            @elseif($key === 'updated')
+                <pubDate>{{ Carbon\Carbon::parse($metaItem)->toRssString() }}</pubDate>
+            @elseif($key === 'id')
+            @else
+                <{{ $key }}>{{ $metaItem }}</{{ $key }}>
+            @endif
+        @endforeach
+        <link>{{ url('/') }}</link>
         @foreach($items as $item)
             <item>
-                <title><![CDATA[{{ $item->title }}]]></title>
+                <title>{{ $item->title }}</title>
+                <guid>{{ url($item->link) }}</guid>
                 <link>{{ url($item->link) }}</link>
-                <description><![CDATA[{!! $item->summary !!}]]></description>
+                <description>{{ $item->summary }}</description>
                 @if(isset($item->author))
-                <author><![CDATA[{{ $item->author }}]]></author>
+                <author>{{ $item->author }}</author>
                 @endif
-                <guid>{{ url($item->id) }}</guid>
-                <pubDate>{{ $item->updated->toRssString() }}</pubDate>
-                @foreach($item->category as $category)
-                <category>{{ $category }}</category>
-                @endforeach
                 @if(isset($item->image))
                 <media:content
                     url="{{ $item->image }}"
@@ -38,6 +39,10 @@
                     height="{{ $item->imageHeight }}"
                     @endif />
                 @endif
+                @foreach($item->category as $category)
+                <category>{{ $category }}</category>
+                @endforeach
+                <pubDate>{{ $item->updated->toRssString() }}</pubDate>
             </item>
         @endforeach
     </channel>
